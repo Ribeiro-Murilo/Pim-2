@@ -6,13 +6,24 @@ int idObraApresentada;
 char obraApresentada;
 
 
-
+void encerrar(){
+    printf("Obrigado por vir ao museu");
+}
 void perguntasPessois(){
-    int idade;
-    printf("Caso não queira responder uma em especifico digite 0\n");
-    printf("Quantos anos tem?\n");
-    scanf("%i",&idade);
-    printf("demais perguntas para basear a analize de dados das obras\n");
+    int querResponder=0;
+    while (querResponder < 1 || querResponder > 2) {
+        printf("Caso sinta-se a vontade de responder perguntas pessoais digite\n1 para sim\n2 para não\n");
+        scanf("%i",&querResponder);
+    }
+    if(querResponder==1){
+        int idade;
+        printf("Caso não queira responder uma em especifico digite 0\n");
+        printf("Quantos anos tem?\n");
+        scanf("%i",&idade);
+        printf("Demais perguntas para basear a analize de dados das obras\n");
+    }else if(querResponder==2){
+        encerrar();
+    }
 }
 
 void selecionarObra(){
@@ -60,6 +71,7 @@ void decidir(){
 };
 
 
+
 int main(int argc, char *argv[]) {
     //apresentação inicial do projeto
     printf("Ola seja bem-vindo ao musel multematico da UNIP\n");
@@ -87,8 +99,7 @@ int main(int argc, char *argv[]) {
         }
         
         printf("Varias perguntas...\n");
-    compraDeIngressos();
-    return 0;
+    //return 0;
         int querComprar=0;
         while (querComprar < 1 || querComprar > 2) {
             printf("Deseja comprar ingressos para a exposição\n1 para sim\n2 para não\n");
@@ -96,5 +107,7 @@ int main(int argc, char *argv[]) {
         }
         if(querComprar==1){
             compraDeIngressos();
+        }else if (querComprar == 2){
+            perguntasPessois();
         }
     }
