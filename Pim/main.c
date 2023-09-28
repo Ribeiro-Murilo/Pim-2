@@ -1,3 +1,18 @@
+//
+//  main.c
+//  Trabalho PIM II
+//
+//  Created by Ribeiro on 26/09/23.
+//
+//  Grup{
+//        MURILO RIBEIRO                        Ra:N0565C2
+//        LUIS ISAAC STREICH AYALA              RA:N314524
+//        Gabriel ELIAS SILVA                   Ra:N049596
+//        JOSI APARECIDA VELA PEREIRA           RA:G8224J1
+//        IGOR APARECIDO FALCÃO FRANCHETO       RA:G7323J5
+//        SILAS HENRIQUE GOMES PINTO            RA:N0720H2
+//  }
+
 #include <stdio.h>
 
 
@@ -39,20 +54,60 @@ void selecionarObra(){
     }
 }
 
+//parte de compra de ingressos
+int tipoEntrada=0;
+int quantEntrada;
+int entrada1[2];
+int entrada2[2];
+int entrada3[2];
+void marcarEntrada(){
+    switch (tipoEntrada) {
+            case 1:
+            entrada1[0] = tipoEntrada;
+            entrada1[1] = quantEntrada;
+                break;
+            case 2:
+                entrada2[0]=tipoEntrada;
+                entrada2[1]=quantEntrada;
+                break;
+            case 3:
+                entrada3[0]=tipoEntrada;
+                entrada3[1]=quantEntrada;
+                break;
+            default:
+                break;
+        }
+    int outraEntrada=0;
+    printf("Deseja comprar outro tipo de ingresso?");
+    while (!(outraEntrada==1||outraEntrada==2)) {
+        printf("Para compara outro tipo de entrada\n1 para sim \n2 para não: ");
+        scanf("%i",&outraEntrada);
+        if(outraEntrada==1){
+            tipoEntrada=0;
+        }else if(outraEntrada==2)
+            perguntasPessois();
+    }
+}
 void compraDeIngressos(){
-    int entrada;
     int entradaInteira =30;
     int entradaMeia =15;
     int entradaIsenta =0;
+    
     printf("Os valores da entrada são:\n%i Reais para entrada inteira\n%i Reais para meia entrada\n%i Reais para entrada isenta.\n",entradaInteira, entradaMeia, entradaIsenta);
     
-    while (!(entrada==1||entrada==2||entrada==3)) {
-        printf("Para compara a entrada inteira selecione 1\nPara compara a meia entrada selecione 2\nPara compara a entrada isenta selecione 3\n");
-        scanf("%i",&entrada);
+    while (!(tipoEntrada==1||tipoEntrada==2||tipoEntrada==3)) {
+        printf("Para compara a entrada inteira selecione 1\nPara compara a meia entrada selecione 2\nPara compara a entrada isenta selecione 3\nEntrada: ");
+        scanf("%i",&tipoEntrada);
+        printf("Qual a quantidade: ");
+        scanf("%i",&quantEntrada);
+        marcarEntrada();
     }
+    
 }
 
 
+
+//parte de apresentação da obra
 void santosD(){
     idObraApresentada = 1;
     printf("\nAqui o texto de apresentação do Santos Dumont o verdadeiro criador do avião\nps:Com catapulta ate uma pedra voa ;)\n\n");
@@ -73,6 +128,8 @@ void decidir(){
 
 
 int main(int argc, char *argv[]) {
+    compraDeIngressos();
+    return 0;
     //apresentação inicial do projeto
     printf("Ola seja bem-vindo ao musel multematico da UNIP\n");
     printf("Aqui estara sendo apresentada obras da de temas que estão presentes nos ultimos 3 anos ou que estarão presentes em 3 anos\n");
@@ -101,7 +158,7 @@ int main(int argc, char *argv[]) {
         printf("Varias perguntas...\n");
     //return 0;
         int querComprar=0;
-        while (querComprar < 1 || querComprar > 2) {
+        while (!(querComprar==1||querComprar==2)) {
             printf("Deseja comprar ingressos para a exposição\n1 para sim\n2 para não\n");
             scanf("%i",&querComprar);
         }
