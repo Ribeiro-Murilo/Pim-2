@@ -13,7 +13,6 @@ void perguntasPessois(){
     printf("Quantos anos tem?\n");
     scanf("%i",&idade);
     printf("demais perguntas para basear a analize de dados das obras\n");
-    
 }
 
 void selecionarObra(){
@@ -40,7 +39,6 @@ void compraDeIngressos(){
         printf("Para compara a entrada inteira selecione 1\nPara compara a meia entrada selecione 2\nPara compara a entrada isenta selecione 3\n");
         scanf("%i",&entrada);
     }
-    
 }
 
 
@@ -69,30 +67,26 @@ int main(int argc, char *argv[]) {
     
     //... logica para selecionar a obra mais bem vista segundo alguns parametros
     //apresentação da obra
-    //compraDeIngressos();
-    //santosD();
-    //selecionarObra();
+    santosD();
+    selecionarObra();
     
-        //int QuantDeQuestionario = 3;
-        //int respostasPergunta[3] ={-1,-1,-1};
+        int QuantDeQuestionario = 3;
+        int respostasPergunta[3] ={-1,-1,-1};
         
-        //printf("Para uma melhor apresentação nos informe seu nivel de satisfação com cada pergunta sobre a obra %c\n",obraApresentada);
-        //printf("Sendo 10 amei e 0 não gostei\n");
+        printf("Para uma melhor apresentação nos informe seu nivel de satisfação com cada pergunta sobre a obra %c\n",obraApresentada);
+        printf("Sendo 10 amei e 0 não gostei\n");
         
-        //for (int numeroQuestionario =0; numeroQuestionario<QuantDeQuestionario; numeroQuestionario++) {
-        //    while (respostasPergunta[numeroQuestionario] < 0 || respostasPergunta[numeroQuestionario] > 10) {
-        //        printf("Pergunta %i\n",numeroQuestionario+1);
-        //        scanf("%i",&respostasPergunta[numeroQuestionario]);
-        //        if(respostasPergunta[numeroQuestionario] < 0 || respostasPergunta[numeroQuestionario] >10){
-        //            printf("Valor digitado invalido\n");
-        //        }
-         //   }
-        //}
-    //    printf("%i",respostasPergunta[0]);
-      //  printf("%i",respostasPergunta[1]);
-        //printf("%i",respostasPergunta[2]);
+        for (int numeroQuestionario =0; numeroQuestionario<QuantDeQuestionario; numeroQuestionario++) {
+            while (respostasPergunta[numeroQuestionario] < 0 || respostasPergunta[numeroQuestionario] > 10) {
+                printf("Pergunta %i\n",numeroQuestionario+1);
+                scanf("%i",&respostasPergunta[numeroQuestionario]);
+                if(respostasPergunta[numeroQuestionario] < 0 || respostasPergunta[numeroQuestionario] >10){
+                    printf("Valor digitado invalido\n");
+                }
+            }
+        }
         
-        //printf("Varias perguntas...\n");
+        printf("Varias perguntas...\n");
     compraDeIngressos();
     return 0;
         int querComprar=0;
