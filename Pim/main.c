@@ -24,22 +24,6 @@ char obraApresentada;
 void encerrar(){
     printf("Obrigado por vir ao museu");
 }
-void perguntasPessois(){
-    int querResponder=0;
-    while (querResponder < 1 || querResponder > 2) {
-        printf("Caso sinta-se a vontade de responder perguntas pessoais digite\n1 para sim\n2 para não\n");
-        scanf("%i",&querResponder);
-    }
-    if(querResponder==1){
-        int idade;
-        printf("Caso não queira responder uma em especifico digite 0\n");
-        printf("Quantos anos tem?\n");
-        scanf("%i",&idade);
-        printf("Demais perguntas para basear a analize de dados das obras\n");
-    }else if(querResponder==2){
-        encerrar();
-    }
-}
 
 void selecionarObra(){
     switch (idObraApresentada){
@@ -88,22 +72,7 @@ void marcarEntrada(){
             perguntasPessois();
     }
 }
-void compraDeIngressos(){
-    int entradaInteira =30;
-    int entradaMeia =15;
-    int entradaIsenta =0;
-    
-    printf("Os valores da entrada são:\n%i Reais para entrada inteira\n%i Reais para meia entrada\n%i Reais para entrada isenta.\n",entradaInteira, entradaMeia, entradaIsenta);
-    
-    while (!(tipoEntrada==1||tipoEntrada==2||tipoEntrada==3)) {
-        printf("Para compara a entrada inteira selecione 1\nPara compara a meia entrada selecione 2\nPara compara a entrada isenta selecione 3\nEntrada: ");
-        scanf("%i",&tipoEntrada);
-        printf("Qual a quantidade: ");
-        scanf("%i",&quantEntrada);
-        marcarEntrada();
-    }
-    
-}
+
 
 
 
@@ -128,7 +97,11 @@ void decidir(){
 
 
 int main(int argc, char *argv[]) {
-    compraDeIngressos();
+    int aux = bilheteria();
+     
+        //Demonstrando valor lido e esperando usuário apertar o -Enter-
+    printf("\n-->%d", aux);
+    //compraDeIngressos();
     return 0;
     //apresentação inicial do projeto
     printf("Ola seja bem-vindo ao musel multematico da UNIP\n");

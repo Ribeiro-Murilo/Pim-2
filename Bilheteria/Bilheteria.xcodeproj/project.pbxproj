@@ -7,12 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3708B4E12AC39763006A87AB /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 3708B4E02AC39763006A87AB /* main.c */; };
-		373782272ACF799900602B23 /* bilheteria.c in Sources */ = {isa = PBXBuildFile; fileRef = 373782262ACF799900602B23 /* bilheteria.c */; };
+		3708016D2AD82855002E2549 /* BilheteriaCodigo.c in Sources */ = {isa = PBXBuildFile; fileRef = 3708016C2AD82855002E2549 /* BilheteriaCodigo.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		3708B4DB2AC39762006A87AB /* CopyFiles */ = {
+		370801672AD82855002E2549 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -24,14 +23,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3708B4DD2AC39763006A87AB /* Pim */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Pim; sourceTree = BUILT_PRODUCTS_DIR; };
-		3708B4E02AC39763006A87AB /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		3732644E2ACCD916009F4DBD /* Bilheteria */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Bilheteria; path = Pim/Bilheteria; sourceTree = "<group>"; };
-		373782262ACF799900602B23 /* bilheteria.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = bilheteria.c; sourceTree = "<group>"; };
+		370801692AD82855002E2549 /* Bilheteria */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Bilheteria; sourceTree = BUILT_PRODUCTS_DIR; };
+		3708016C2AD82855002E2549 /* BilheteriaCodigo.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = BilheteriaCodigo.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		3708B4DA2AC39762006A87AB /* Frameworks */ = {
+		370801662AD82855002E2549 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -41,67 +38,65 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3708B4D42AC39762006A87AB = {
+		370801602AD82855002E2549 = {
 			isa = PBXGroup;
 			children = (
-				3732644E2ACCD916009F4DBD /* Bilheteria */,
-				3708B4DF2AC39763006A87AB /* Pim */,
-				3708B4DE2AC39763006A87AB /* Products */,
+				3708016B2AD82855002E2549 /* Bilheteria */,
+				3708016A2AD82855002E2549 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		3708B4DE2AC39763006A87AB /* Products */ = {
+		3708016A2AD82855002E2549 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3708B4DD2AC39763006A87AB /* Pim */,
+				370801692AD82855002E2549 /* Bilheteria */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		3708B4DF2AC39763006A87AB /* Pim */ = {
+		3708016B2AD82855002E2549 /* Bilheteria */ = {
 			isa = PBXGroup;
 			children = (
-				3708B4E02AC39763006A87AB /* main.c */,
-				373782262ACF799900602B23 /* bilheteria.c */,
+				3708016C2AD82855002E2549 /* BilheteriaCodigo.c */,
 			);
-			path = Pim;
+			path = Bilheteria;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3708B4DC2AC39762006A87AB /* Pim */ = {
+		370801682AD82855002E2549 /* Bilheteria */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3708B4E42AC39763006A87AB /* Build configuration list for PBXNativeTarget "Pim" */;
+			buildConfigurationList = 370801702AD82855002E2549 /* Build configuration list for PBXNativeTarget "Bilheteria" */;
 			buildPhases = (
-				3708B4D92AC39762006A87AB /* Sources */,
-				3708B4DA2AC39762006A87AB /* Frameworks */,
-				3708B4DB2AC39762006A87AB /* CopyFiles */,
+				370801652AD82855002E2549 /* Sources */,
+				370801662AD82855002E2549 /* Frameworks */,
+				370801672AD82855002E2549 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = Pim;
-			productName = Pim;
-			productReference = 3708B4DD2AC39763006A87AB /* Pim */;
+			name = Bilheteria;
+			productName = Bilheteria;
+			productReference = 370801692AD82855002E2549 /* Bilheteria */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		3708B4D52AC39762006A87AB /* Project object */ = {
+		370801612AD82855002E2549 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
-					3708B4DC2AC39762006A87AB = {
+					370801682AD82855002E2549 = {
 						CreatedOnToolsVersion = 14.2;
 					};
 				};
 			};
-			buildConfigurationList = 3708B4D82AC39762006A87AB /* Build configuration list for PBXProject "Pim" */;
+			buildConfigurationList = 370801642AD82855002E2549 /* Build configuration list for PBXProject "Bilheteria" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -109,30 +104,29 @@
 				en,
 				Base,
 			);
-			mainGroup = 3708B4D42AC39762006A87AB;
-			productRefGroup = 3708B4DE2AC39763006A87AB /* Products */;
+			mainGroup = 370801602AD82855002E2549;
+			productRefGroup = 3708016A2AD82855002E2549 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3708B4DC2AC39762006A87AB /* Pim */,
+				370801682AD82855002E2549 /* Bilheteria */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		3708B4D92AC39762006A87AB /* Sources */ = {
+		370801652AD82855002E2549 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				373782272ACF799900602B23 /* bilheteria.c in Sources */,
-				3708B4E12AC39763006A87AB /* main.c in Sources */,
+				3708016D2AD82855002E2549 /* BilheteriaCodigo.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		3708B4E22AC39763006A87AB /* Debug */ = {
+		3708016E2AD82855002E2549 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -190,7 +184,7 @@
 			};
 			name = Debug;
 		};
-		3708B4E32AC39763006A87AB /* Release */ = {
+		3708016F2AD82855002E2549 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -241,18 +235,22 @@
 			};
 			name = Release;
 		};
-		3708B4E52AC39763006A87AB /* Debug */ = {
+		370801712AD82855002E2549 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RG3JDSP5YC;
+				ENABLE_HARDENED_RUNTIME = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
-		3708B4E62AC39763006A87AB /* Release */ = {
+		370801722AD82855002E2549 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RG3JDSP5YC;
+				ENABLE_HARDENED_RUNTIME = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -260,25 +258,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3708B4D82AC39762006A87AB /* Build configuration list for PBXProject "Pim" */ = {
+		370801642AD82855002E2549 /* Build configuration list for PBXProject "Bilheteria" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3708B4E22AC39763006A87AB /* Debug */,
-				3708B4E32AC39763006A87AB /* Release */,
+				3708016E2AD82855002E2549 /* Debug */,
+				3708016F2AD82855002E2549 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3708B4E42AC39763006A87AB /* Build configuration list for PBXNativeTarget "Pim" */ = {
+		370801702AD82855002E2549 /* Build configuration list for PBXNativeTarget "Bilheteria" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3708B4E52AC39763006A87AB /* Debug */,
-				3708B4E62AC39763006A87AB /* Release */,
+				370801712AD82855002E2549 /* Debug */,
+				370801722AD82855002E2549 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 3708B4D52AC39762006A87AB /* Project object */;
+	rootObject = 370801612AD82855002E2549 /* Project object */;
 }
