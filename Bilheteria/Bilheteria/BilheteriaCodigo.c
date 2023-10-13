@@ -12,20 +12,20 @@
 //        SILAS HENRIQUE GOMES PINTO            RA:N0720H2
 //  }
 
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <string.h>
+#include <stdbool.h>
 
-int gerarCodigo(){
-    srand(time(NULL));
-        // Gera um número aleatório entre 0 a 9999
-        int codigo = rand() % 10000;
-        return codigo;
-}
+#define TAMANHO_MAX_CODIGO 5  // Tamanho máximo para o código (incluindo o caractere nulo)
 
+//variaveis globais
 char obraApresentada[30];
 int idObraApresentada;
+char codigoToken[5];
+
+
 void selecionarObra(){
     switch (idObraApresentada){
         case 1:
@@ -70,12 +70,6 @@ void marcarEntrada(){
             default:
                 break;
         }
-    
-    
-    
-    
-    
-    
     int outraEntrada;
     printf("Deseja comprar outro tipo de ingresso?\n");
     do{
@@ -84,16 +78,10 @@ void marcarEntrada(){
         if(outraEntrada==1){
             outraEntrada=0;
         }else if(outraEntrada==2)
-            printf("teste");
+            printf("corrigir problema de looping\n");
             //perguntasPessois();
     }while (!(outraEntrada==1||outraEntrada==2));
 }
-
-
-
-
-
-
 void compraDeIngressos(){
     int entradaInteira =30;
     int entradaMeia =15;
@@ -110,6 +98,10 @@ void compraDeIngressos(){
     }
     
 }
+
+
+
+
 
 //escolhe o tipo de entrada
 void compraTipoEntrada(){
@@ -128,25 +120,104 @@ void compraTipoEntrada(){
     marcarEntrada();
 }
 
-int main(int argc, char *argv[]) {
-    printf("Bilhereria\n");
+
+
+//joga o codigo tokem para dentro do csv;
+void lancarCodigoEentrada(){
+    //printf("Seu codigo de entrada é: %i",codigoGerado);
+    FILE *DBToken;
+    DBToken = fopen("/Volumes/Faculdade/faculdade/Pim/codigo/Pim/DBToken.csv", "a");
+    if (DBToken == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+    }
+    fprintf(DBToken,"\n%s",codigoToken);
+    fclose(DBToken);
+}
+
+
+bool buscaValidacao() {
+    char linha[256];
+    FILE *DBToken;
+    DBToken = fopen("/Volumes/Faculdade/faculdade/Pim/codigo/Pim/DBToken.csv", "r");
+    if (DBToken == NULL) {
+        printf("Erro ao abrir o arquivo CSV.\n");
+        return false;
+    }
+    while (fgets(linha, sizeof(linha), DBToken) != NULL) {
+        for (int i = 0; i < 4; i++) {
+                if (!(linha[i] == codigoToken[i])) {
+                    //é diferente retorna true
+                    return true;
+                }
+            }
+    }
+    fclose(DBToken);  // Fecha o arquivo
     
-    //printa na tela quais as obras
-    for (int repet=1; repet<=4; repet++) {
+    //é igual retorna false
+    return false;
+    
+}
+
+// Função para gerar um código aleatório
+void gerarCodigo() {
+    srand(time(NULL));
+    int codigo=0;
+    
+    do {
+        // Gera um número aleatório entre 0 a 9999
+        codigo = rand() % 10000;
+
+        // Converte o número inteiro em uma string
+        sprintf(codigoToken, "%d", codigo);
+    } while (codigo == 0 || strlen(codigoToken) > TAMANHO_MAX_CODIGO - 1);
+}
+
+//se o buscar validação que procurou no csv retorna que o numero ja existe
+//ele pede a geração de outro e a validadação ate que seja um novo numero
+void validarToken() {
+    int numLinhasCSV = 3;
+    bool codigoValido;
+    
+    while(!buscaValidacao){
+        gerarCodigo();
+        buscaValidacao();
+    }
+    printf("Token para a entrada gerado: %s\n", codigoToken);
+}
+
+
+//corrigir quando o cliente quer comprar mais de um tipo de entrada fica em looping
+
+
+int main() {
+    printf("Bilheteria\n");
+
+    for (int repet = 1; repet <= 4; repet++) {
         idObraApresentada = repet;
         selecionarObra();
-        printf("Obra %i: %s\n",repet, obraApresentada);
+        printf("Obra %i: %s\n", repet, obraApresentada);
     }
-    
-    //escolhe a obra
-    do{
+
+    do {
         printf("Escolha 1-4: ");
-        scanf("%i",&apresentacao);
-    }while (apresentacao<1 || apresentacao>4);
+        scanf("%i", &apresentacao);
+    } while (apresentacao < 1 || apresentacao > 4);
     
-    //escolher tipo de entrada\ meia \ inteira etc
-    
-    //concertar quando o cara quer comprar mais de um tipo de entrada
+    //fazer for para gerar diversos codigos para clientes que escolheram virias entradas;
+
+    // Chama a função para escolher o tipo de entrada
     compraTipoEntrada();
     
+        //gera o codigo
+        gerarCodigo();
+        
+        //busca no csv a validação
+        buscaValidacao();
+        
+        //return 0;
+        validarToken();
+        lancarCodigoEentrada();
+        printf("Codigo valido em %i acessos.\n",entrada1[2]);
+        
+    return 0;
 }
