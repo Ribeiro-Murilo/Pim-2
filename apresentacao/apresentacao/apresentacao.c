@@ -35,7 +35,7 @@ int entradaAtual;
 int quantidadeAtual;
 int tokenProcurado;
 int quantidadeRestante;
-int valido = -1;  // Inicializa com um valor que indica que o token não foi encontrado
+int valido = -1;  // Quando nao encontrado
 char obraApresentada[50];
 int respostaQ1[5];
 int respostaQ2[5];
@@ -61,13 +61,13 @@ void acessarInfoSistema(){
         // Extrai os valores de token e entrada da linha
         sscanf(linha, "%d;%d;%d", &token, &entradaAtual, &quantidadeAtual);
 
-                // Verifica se é o token que estamos procurando
+                // Verifica se é o token que o user digitou
         if (token == tokenProcurado) {
             entradaObra = entradaAtual;
             quantidade = quantidadeAtual;
             printf("token:%i\nEntrada: %i\nQuantidade: %i\n",tokenProcurado,entradaObra,quantidade);
             valido=0;
-            break;  // Encerra a busca, já encontramos o token colocado pelo user
+            break;
         }
     }
     if(valido==-1){
@@ -91,7 +91,7 @@ void baixaSistema(){
     int entradaAtual;
     int quantidadeAtual;
     int token;
-    // Lê cada linha do arquivo
+    // le cada linha
     while (fgets(linha, TAMANHO_MAX_LINHA, DBToken) != NULL) {
         // Extrai os valores de token, entrada e quantidade da linha
         sscanf(linha, "%d;%d;%d", &token, &entradaAtual, &quantidadeAtual);
@@ -100,8 +100,9 @@ void baixaSistema(){
             // Atualiza os valores
             quantidadeRestante = quantidadeAtual-1;
             // Reescreve a linha no arquivo com os novos valores
-            fseek(DBToken, -strlen(linha), SEEK_CUR);
-            fprintf(DBToken, "%d;%d;%d", token, entradaAtual, quantidadeRestante);
+            fseek(DBToken, -strlen(linha), SEEK_CUR);//CUR
+            //fputs(DBToken, "%d;%d;%i", token, entradaAtual, quantidadeRestante);
+            fputs("", DBToken);
             break;
         }
     }
@@ -315,6 +316,8 @@ int main(int argc, const char * argv[]) {
     //da baixa do tokem no sistema
     baixaSistema();
     
+    //para fins de testes o restante nao é apresentado
+    return 0;
     if(quantidadeRestante>=0){
         apresentarObra();
         selecionarPerguntas();

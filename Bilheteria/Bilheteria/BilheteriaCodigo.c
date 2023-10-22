@@ -20,10 +20,12 @@
 
 #define TAMANHO_MAX_CODIGO 5  // Tamanho máximo para o código (incluindo o caractere nulo)
 
+
 //variaveis globais
 char obraApresentada[30];
 int idObraApresentada;
-char codigoToken[5];
+int codigoToken;
+int aceitarCompra;
 
 
 void selecionarObra(){
@@ -132,11 +134,11 @@ void lancarSistema(){
         printf("Erro ao abrir o arquivo.\n");
     }
     if(entrada1[1]==1){
-        fprintf(DBToken,"\n%s;%i;%i",codigoToken,entrada1[0],entrada1[2]);
+        fprintf(DBToken,"\n%i;%i;%i;%i;%i",codigoToken,entrada1[0],entrada1[2],entrada1[1],entrada1[2]);
     }else if (entrada2[1]==2){
-        fprintf(DBToken,"\n%s;%i;%i",codigoToken,entrada2[0],entrada2[2]);
+        fprintf(DBToken,"\n%i;%i;%i;%i;%i",codigoToken,entrada2[0],entrada2[2],entrada2[1],entrada2[2]);
     }else if (entrada3[1]==3){
-        fprintf(DBToken,"\n%s;%i;%i",codigoToken,entrada3[0],entrada3[2]);
+        fprintf(DBToken,"\n%i;%i;%i;%i;%i",codigoToken,entrada3[0],entrada3[2],entrada3[1],entrada3[2]);
     }
     fclose(DBToken);
 }
@@ -153,11 +155,15 @@ bool buscaValidacao() {
         return false;
     }
     while (fgets(linha, sizeof(linha), DBToken) != NULL) {
-        for (int i = 0; i < 4; i++) {
-                if (!(linha[i] == codigoToken[i])) {
-                    //é diferente retorna true
-                    return true;
-                }
+        int tokenRecebido;
+        int entradaAtualRecebido;
+        int quantidadeAtualRecebido;
+        int tipoEntradaRecebido;
+        int quatidadeCompradaRecebido;
+        sscanf(linha, "%d;%d;%d;%d;%d", &tokenRecebido, &entradaAtualRecebido, &quantidadeAtualRecebido, tipoEntradaRecebido, quatidadeCompradaRecebido);
+            if (!(tokenRecebido == codigoToken)) {
+                //é diferente retorna true
+                return true;
             }
     }
     fclose(DBToken);  // Fecha o arquivo
@@ -172,13 +178,11 @@ void gerarCodigo() {
     srand(time(NULL));
     int codigo=0;
     
-    do {
-        // Gera um número aleatório entre 0 a 9999
-        codigo = rand() % 10000;
-
-        // Converte o número inteiro em uma string
-        sprintf(codigoToken, "%d", codigo);
-    } while (codigo == 0 || strlen(codigoToken) > TAMANHO_MAX_CODIGO - 1);
+    // Gera um número aleatório entre 0 a 9999
+    codigo = rand() % 10000;
+    codigoToken = codigo;
+    // Converte o número inteiro em uma string
+    //sprintf(codigoToken, "%d", codigo);
 }
 
 //se o buscar validação que procurou no csv retorna que o numero ja existe
@@ -191,27 +195,45 @@ void validarToken() {
         gerarCodigo();
         buscaValidacao();
     }
-    printf("Token para a entrada gerado: %s\n", codigoToken);
+    printf("Token para a entrada gerado: %i\n", codigoToken);
 }
 
 
 void confirmarCompra(){
+    int comprar;
     int quantidadeIngressos;
+    int valorFinal;
     if(entrada1[1]==1){
         idObraApresentada=entrada1[0];
-        quantidadeIngressos=entrada1[0];
+        quantidadeIngressos=entrada1[2];
+        valorFinal = quantidadeIngressos * 30;
+        printf("Valor final: %i\n",valorFinal);
     }else if (entrada2[1]==2){
         idObraApresentada=entrada2[0];
-        quantidadeIngressos=entrada2[0];
+        quantidadeIngressos=entrada2[2];
+        valorFinal = quantidadeIngressos * 15;
+        printf("Valor final: %i",valorFinal);
     }else if (entrada3[1]==3){
         idObraApresentada=entrada3[0];
-        quantidadeIngressos=entrada3[0];
+        quantidadeIngressos=entrada3[2];
+        valorFinal = quantidadeIngressos * 0;
+        printf("Valor final: %i",valorFinal);
     }
     selecionarObra();
     printf("Confirma que deseja comprar %i ingressos para %s?\n",quantidadeIngressos,obraApresentada);
+    do{
+        printf("1 - Sim\n2 - Não");
+        scanf("%i", &aceitarCompra);
+    }while(!(aceitarCompra==1 || aceitarCompra==2));
+    
 }
 
+//add tipo entrada no DB
+//informar valor na compra
 int main() {
+    iniciar:
+    //Para variavel ambiente para poder limpar o console
+    putenv("TERM=xterm");
     printf("Bilheteria\n");
 
     for (int repet = 1; repet <= 4; repet++) {
@@ -224,13 +246,14 @@ int main() {
         printf("Escolha 1-4: ");
         scanf("%i", &apresentacao);
     } while (apresentacao < 1 || apresentacao > 4);
+    system("clear");
     
-    //fazer for para gerar diversos codigos para clientes que escolheram virias entradas;
 
     // Chama a função para escolher o tipo de entrada
     compraTipoEntrada();
     
         //gera o codigo
+    system("clear");
     gerarCodigo();
         
         //busca no csv a validação
@@ -238,9 +261,11 @@ int main() {
     
     validarToken();
     
-    //lança no csv 1-token 2-qual obra 3-quantidade comprada
-    lancarSistema();
+    confirmarCompra();
     
+    if(aceitarCompra==1){
+        //lança no csv 1-token 2-qual obra 3-quantidade comprada
+        lancarSistema();
         if(entrada1[1]==1){
             printf("Codigo valido em %i acessos.\n",entrada1[2]);
         }else if (entrada2[1]==2){
@@ -248,6 +273,8 @@ int main() {
         }else if (entrada3[1]==3){
             printf("Codigo valido em %i acessos.\n",entrada3[2]);
         }
-    confirmarCompra();
+    }
+    system("clear");
+    goto iniciar;
     return 0;
 }
