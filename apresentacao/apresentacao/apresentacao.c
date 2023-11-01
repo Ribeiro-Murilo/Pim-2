@@ -9,6 +9,10 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
+//biblioteca para sistemas Mac OS e linux
+#include <unistd.h>
+//biblioteca para sistemas Windows
+//#include <windows.h>
 
 //ja foi feito
 
@@ -36,19 +40,15 @@ int quantidadeAtual;
 int tokenProcurado;
 int quantidadeRestante;
 int valido = -1;  // Quando nao encontrado
+int liberadoAcesso=0; //padrão acesso negado
 char obraApresentada[50];
-int respostaQ1[5];
-int respostaQ2[5];
-int respostaQ3[5];
-int respostaQ4[5];
-int respostaQ5[5];
+int resposta[5];
 
 void acessarInfoSistema(){
     FILE *DBToken = fopen("/Volumes/Faculdade/faculdade/Pim/codigo/Pim/DBToken.csv", "r");
 
     if (DBToken == NULL) {
         printf("Erro ao abrir o arquivo.\n");
-        //return 1;
     }
 
     char linha[TAMANHO_MAX_LINHA];
@@ -81,36 +81,48 @@ void acessarInfoSistema(){
 //bug quando a quantidade esta em 10 da baixa no sistema fica 90, acontece com 10,100,1000 etc
 
 
-void baixaSistema(){
-    FILE *DBToken = fopen("/Volumes/Faculdade/faculdade/Pim/codigo/Pim/DBToken.csv", "r+");
+void baixaSistema() {
+    FILE *DBToken = fopen("/Volumes/Faculdade/faculdade/Pim/codigo/Pim/DBToken.csv","r+");
     
     if (DBToken == NULL) {
         printf("Erro ao abrir o arquivo.\n");
     }
+    
     char linha[TAMANHO_MAX_LINHA];
     int entradaAtual;
-    int quantidadeAtual;
+    int quantidadeAtual = 0; // Inicialize com 0
     int token;
+    int tipoEntrada;
+    int quantidadeComprada;
+    //preciso armazenar a posição para voltar e gravar nessa posição
+    long posicaoEscrita = ftell(DBToken);
+    
     // le cada linha
     while (fgets(linha, TAMANHO_MAX_LINHA, DBToken) != NULL) {
-        // Extrai os valores de token, entrada e quantidade da linha
-        sscanf(linha, "%d;%d;%d", &token, &entradaAtual, &quantidadeAtual);
-        // Verifica se é o token que estamos procurando
+        sscanf(linha, "%d;%d;%d;%d;%d", &token, &entradaAtual, &quantidadeAtual, &tipoEntrada, &quantidadeComprada);
+        
         if (token == tokenProcurado) {
-            // Atualiza os valores
-            quantidadeRestante = quantidadeAtual-1;
-            // Reescreve a linha no arquivo com os novos valores
-            fseek(DBToken, -strlen(linha), SEEK_CUR);//CUR
-            //fputs(DBToken, "%d;%d;%i", token, entradaAtual, quantidadeRestante);
-            fputs("", DBToken);
-            break;
+            if(quantidadeAtual>0){
+                int quantidadeRestante = quantidadeAtual - 1;
+                fseek(DBToken, posicaoEscrita, SEEK_SET);
+                snprintf(linha, sizeof(linha), "%d;%d;%d;%d;%d", token, entradaAtual, quantidadeRestante, tipoEntrada, quantidadeComprada);
+                fputs(linha, DBToken);
+                liberadoAcesso = 1;
+                break;
+            }else{
+                break;
+            }
+            
         }
+        posicaoEscrita = ftell(DBToken);
     }
-    if(quantidadeRestante>=0){
-        printf("Esse Token de acesso esta disponivel para uso para mais %i acessos.",quantidadeRestante);
-    }else{
-        printf("Esse Token de acesso não esta mais disponivel para uso ou é invalido.");
+    
+    if (quantidadeAtual > 0) {
+        printf("Esse Token de acesso está disponível para uso para mais %i acessos.\n", quantidadeAtual-1);
+    } else {
+        printf("Esse Token de acesso não está mais disponível para uso ou é inválido.\n");
     }
+    
     fclose(DBToken);
 }
 
@@ -185,121 +197,32 @@ void acharTema(){
 }
 
 void lancarRespostas(){
-    
     FILE *DBObra1 = fopen("/Volumes/Faculdade/faculdade/Pim/codigo/Pim/DBObra1.csv", "a");
     if (DBObra1 == NULL) {
         printf("Erro ao abrir o arquivo.\n");
     }
-    
-    FILE *DBObra2 = fopen("/Volumes/Faculdade/faculdade/Pim/codigo/Pim/DBObra2.csv", "a");
-    if (DBObra2 == NULL) {
-        printf("Erro ao abrir o arquivo.\n");
-    }
-    
-    FILE *DBObra3 = fopen("/Volumes/Faculdade/faculdade/Pim/codigo/Pim/DBObra3.csv", "a");
-    if (DBObra3 == NULL) {
-        printf("Erro ao abrir o arquivo.\n");
-    }
-    
-    FILE *DBObra4 = fopen("/Volumes/Faculdade/faculdade/Pim/codigo/Pim/DBObra4.csv", "a");
-    if (DBObra4 == NULL) {
-        printf("Erro ao abrir o arquivo.\n");
-    }
-    switch(entradaObra){
-        case 1:
-            fprintf(DBObra1,"\n%i;%i;%i;%i;%i",respostaQ1[0],respostaQ1[1],respostaQ1[2],respostaQ1[3],respostaQ1[4]);
-            break;
-        case 2:
-            fprintf(DBObra2,"\n%i;%i;%i;%i;%i",respostaQ2[0],respostaQ2[1],respostaQ2[2],respostaQ2[3],respostaQ2[4]);
-            break;
-        case 3:
-            fprintf(DBObra3,"\n%i;%i;%i;%i;%i",respostaQ3[0],respostaQ3[1],respostaQ3[2],respostaQ3[3],respostaQ3[4]);
-            break;
-        case 4:
-            fprintf(DBObra4,"\n%i;%i;%i;%i;%i",respostaQ4[0],respostaQ4[1],respostaQ4[2],respostaQ4[3],respostaQ4[4]);
-            break;
-    }
+    float media;
+    media= (resposta[0]+resposta[1]+resposta[2]+resposta[3]+resposta[4])/5;
+    fprintf(DBObra1,"\n%i;%i;%i;%i;%i;%i;%f",entradaObra,resposta[0],resposta[1],resposta[2],resposta[3],resposta[4],media);
     fclose(DBObra1);
-    fclose(DBObra2);
-    fclose(DBObra3);
-    fclose(DBObra4);
 }
 
 void selecionarPerguntas(){
-    char perguntasQ1[5][50] = {
-            "Pergunta 1 obra1",
-            "Pergunta 2 obra1",
-            "Pergunta 3 obra1",
-            "Pergunta 4 obra1",
-            "Pergunta 5 obra1"
-        };
-    char perguntasQ2[5][50] = {
-            "Pergunta 1 obra2",
-            "Pergunta 2 obra2",
-            "Pergunta 3 obra2",
-            "Pergunta 4 obra2",
-            "Pergunta 5 obra2"
-        };
-    char perguntasQ3[5][50] = {
-            "Pergunta 1 obra3",
-            "Pergunta 2 obra3",
-            "Pergunta 3 obra3",
-            "Pergunta 4 obra3",
-            "Pergunta 5 obra3"
-        };
-    char perguntasQ4[5][50] = {
-            "Pergunta 1 obra4",
-            "Pergunta 2 obra4",
-            "Pergunta 3 obra4",
-            "Pergunta 4 obra4",
-            "Pergunta 5 obra4",
-        };
-    switch (entradaObra){
-        case 1:
+    char perguntas[5][200] = {
+            "Qual é a sua opinião sobre a pesquisa realizada para esta exposição?",
+            "2.Como você avalia a forma de exposição e a seleção das obras de arte?",
+            "3.Os quiosques interativos forneceram informações úteis sobre as obras?",
+            "4.Em geral, qual é a sua satisfação com a exposição?",
+            "5.Em geral o conteudo atendeu suas espectativas?"};
             acharTema();
             printf("Perguntas devem ser respondidas de 0 a 10 em numeral a respeito da obra %s\n",obraApresentada);
             for (int questao=0; questao<5;questao++) {
                 do{
-                    printf("%s\n%i: ",perguntasQ1[questao],questao+1);
-                    scanf("%i",&respostaQ1[questao]);
-                }while(respostaQ1[questao]<0||respostaQ1[questao]>10);
+                    printf("%s\n%i: ",perguntas[questao],questao+1);
+                    scanf("%i",&resposta[questao]);
+                }while(resposta[questao]<0||resposta[questao]>10);
             }
             lancarRespostas();
-            break;
-        case 2:
-            acharTema();
-            printf("Perguntas devem ser respondidas de 0 a 10 em numeral a respeito da obra %s\n",obraApresentada);
-            for (int questao=0; questao<5;questao++) {
-                do{
-                    printf("%s\n%i: ",perguntasQ2[questao],questao+1);
-                    scanf("%i",&respostaQ2[questao]);
-                }while(respostaQ2[questao]<0||respostaQ2[questao]>10);
-            }
-            lancarRespostas();
-            break;
-        case 3:
-            acharTema();
-            printf("Perguntas devem ser respondidas de 0 a 10 em numeral a respeito da obra %s\n",obraApresentada);
-            for (int questao=0; questao<5;questao++) {
-                do{
-                    printf("%s\n%i: ",perguntasQ3[questao],questao+1);
-                    scanf("%i",&respostaQ3[questao]);
-                }while(respostaQ3[questao]<0||respostaQ3[questao]>10);
-            }
-            lancarRespostas();
-            break;
-        case 4:
-            acharTema();
-            printf("Perguntas devem ser respondidas de 0 a 10 em numeral a respeito da obra %s\n",obraApresentada);
-            for (int questao=0; questao<5;questao++) {
-                do{
-                    printf("%s\n%i: ",perguntasQ4[questao],questao+1);
-                    scanf("%i",&respostaQ4[questao]);
-                }while(respostaQ4[questao]<0||respostaQ4[questao]>10);
-            }
-            lancarRespostas();
-            break;
-    }
 }
 int main(int argc, const char * argv[]) {
     do{
@@ -317,11 +240,22 @@ int main(int argc, const char * argv[]) {
     baixaSistema();
     
     //para fins de testes o restante nao é apresentado
-    return 0;
-    if(quantidadeRestante>=0){
+    //return 0;
+    sleep(1);
+    if(liberadoAcesso==1){
         apresentarObra();
         selecionarPerguntas();
+        enviarPerguntas();
+    }else{
+        printf("Acesso negado\n");
     }
-    printf("Obrigado por vir");
+    printf("Obrigado por vir\n");
+    //Pausa em segundos otimizado para plataformas Mac OS e linux
+    sleep(1);
+    
+    
+    //Pausa em segundos otimizado para plataforma windows
+    //Sleep(1000);
+    printf("\n");
     return 0;
 }
