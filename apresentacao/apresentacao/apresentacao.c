@@ -89,8 +89,6 @@ void baixaSistema() {
     }
     
     char linha[TAMANHO_MAX_LINHA];
-    int entradaAtual;
-    int quantidadeAtual = 0; // Inicialize com 0
     int token;
     int tipoEntrada;
     int quantidadeComprada;
@@ -105,7 +103,7 @@ void baixaSistema() {
             if(quantidadeAtual>0){
                 int quantidadeRestante = quantidadeAtual - 1;
                 fseek(DBToken, posicaoEscrita, SEEK_SET);
-                snprintf(linha, sizeof(linha), "%d;%d;%d;%d;%d", token, entradaAtual, quantidadeRestante, tipoEntrada, quantidadeComprada);
+                snprintf(linha, sizeof(linha), "%d;%d;%d;%d;%d\n", token, entradaAtual, quantidadeRestante, tipoEntrada, quantidadeComprada);
                 fputs(linha, DBToken);
                 liberadoAcesso = 1;
                 break;
@@ -245,7 +243,7 @@ int main(int argc, const char * argv[]) {
     if(liberadoAcesso==1){
         apresentarObra();
         selecionarPerguntas();
-        enviarPerguntas();
+        lancarRespostas();
     }else{
         printf("Acesso negado\n");
     }
