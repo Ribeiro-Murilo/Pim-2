@@ -83,6 +83,7 @@ void DBsatisfacao(int indicadoreObra, int select){
             linhaAtual++;
             sscanf(linha, "\n%d;%d;%d;%d;%d;%d;%f",&entradaObra,&resposta[0],&resposta[1],&resposta[2],&resposta[3],&resposta[4],&media);
             if(linhaAtual>1){
+                printf("Obra: %i->  ",entradaObra);
                 for(int repet=0; repet<5; repet++){
                     printf(" %i|",resposta[repet]);
                 }
@@ -91,11 +92,23 @@ void DBsatisfacao(int indicadoreObra, int select){
         }
     }
 }
-
-//printf("4- Quantidade de vendas com valores\n");
 void mostrarIndicadores(int select){
     int indicadoreObra=0;
+    
+    int token;
+    int entrada;
+    int quantidade;
+    int tipoEntrada;
+    int quantidadeComprada;
+    double receitaFinal=0.0;
+    double quantidadeTotalVendida=0.0;
+    double receita=0.0;
 
+    double quantidadeRestanteobra1 =0.0;
+    double quantidadeRestanteobra2 =0.0;
+    double quantidadeRestanteobra3 =0.0;
+    double quantidadeRestanteobra4 =0.0;
+    
     switch(select){
         case 1:
             printf("\nQual obra quer ver a media das respostas?\n");
@@ -119,14 +132,6 @@ void mostrarIndicadores(int select){
             DBsatisfacao(indicadoreObra,select);
             break;
         case 4:
-            int token;
-            int entrada;
-            int quandidade;
-            int tipoEntrada;
-            int quantidadeComprada;
-            double receitaFinal;
-            double quantidadeTotalVendida;
-            int receita;
             printf("\nQual obra quer ver os indicadores de venda?\n");
             printf("1 - 150 anos de Santos Dumont\n");
             printf("2 - 100 anos da arte moderna\n");
@@ -139,7 +144,7 @@ void mostrarIndicadores(int select){
             }
             char linha [100];
             while(fgets(linha, 100, DBToken)!=NULL){
-                sscanf(linha, "%d;%d;%d;%d;%d", &token, &entrada, &quandidade, &tipoEntrada, &quantidadeComprada);
+                sscanf(linha, "%i;%d;%d;%d;%d", &token, &entrada, &quantidade, &tipoEntrada, &quantidadeComprada);
                 if(indicadoreObra==entrada){
                     if(tipoEntrada==1){
                         receita = quantidadeComprada*30;
@@ -154,30 +159,61 @@ void mostrarIndicadores(int select){
                     quantidadeTotalVendida = quantidadeTotalVendida + quantidadeComprada;
                 }
             }
-            break;
             acharTema(indicadoreObra);
             printf("Obra: %s",obraApresentada);
-            printf("Quantidade total vendida: %i",quantidadeTotalVendida);
-            printf("Valor de receita foi: R$ %i",receitaFinal);
+            printf("Quantidade total vendida: %.1f",quantidadeTotalVendida);
+            printf("Valor de receita foi: R$ %.1f",receitaFinal);
             fclose(DBToken);
+            break;
         case 5:
-            FILE *DBToken = fopen("/Volumes/Faculdade/faculdade/Pim/codigo/Pim/DBToken.csv", "r");
-            if (DBToken == NULL) {
+            printf("Quantidades restantes das obras:\n");
+            FILE *DBTokenFaltantes = fopen("/Volumes/Faculdade/faculdade/Pim/codigo/Pim/DBToken.csv", "r");
+            if (DBTokenFaltantes == NULL) {
                 printf("Erro ao abrir o arquivo.\n");
             }
-            while(fgets(linha, 100, DBToken)!=NULL){
-
+            while(fgets(linha, 100, DBTokenFaltantes)!=NULL){
+                sscanf(linha, "%i;%d;%d;%d;%d", &token, &entrada, &quantidade, &tipoEntrada, &quantidadeComprada);
+                if(entrada==1){
+                    if(quantidade>0){
+                        quantidadeRestanteobra1 = quantidadeRestanteobra1 + quantidade;
+                    }
+                }
+                if(entrada==2){
+                    if(quantidade>0){
+                        quantidadeRestanteobra2 = quantidadeRestanteobra2 + quantidade;
+                    }
+                }
+                if(entrada==3){
+                    if(quantidade>0){
+                        quantidadeRestanteobra3 = quantidadeRestanteobra3 + quantidade;
+                    }
+                }
+                if(entrada==4){
+                    if(quantidade>0){
+                        quantidadeRestanteobra4 = quantidadeRestanteobra4 + quantidade;
+                    }
+                }
+                
             }
-
+            if(quantidadeRestanteobra1>0){
+                printf("150 anos de Santos Dumont: %1.f\n",quantidadeRestanteobra1);
+            }
+            if (quantidadeRestanteobra2>0){
+                printf("100 anos da arte moderna: %1.f\n",quantidadeRestanteobra2);
+            }
+            if (quantidadeRestanteobra3>0){
+                printf("Jogos olimpicos de paris 2024: %1.f\n",quantidadeRestanteobra3);
+            }
+            if (quantidadeRestanteobra4>0){
+                printf("Inteligencia Artificial: %1.f\n",quantidadeRestanteobra4);
+            }
     }
 
 }
 
 int main(int argc, const char * argv[]) {
     int select;
-    
     printf("O que deseja ver?\n");
-    
     do{
         printf("1- Media das respostas de satisfação.\n");
         printf("2- Todas as respostas de satisfação de um tema.\n");
@@ -185,8 +221,7 @@ int main(int argc, const char * argv[]) {
         printf("4- Quantidade de vendas com valores.\n");
         printf("5- Quantidade de ingreço disponiveis para uso.\n");
         scanf("%i",&select);
-    }while(!(select==1||select==2||select==3));
+    }while(!(select==1||select==2||select==3||select==4||select==5));
     mostrarIndicadores(select);
-    
     return 0;
 }
