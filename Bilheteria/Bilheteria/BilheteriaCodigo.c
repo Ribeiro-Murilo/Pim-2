@@ -40,7 +40,7 @@ void selecionarObra(){
             strcpy(obraApresentada, "Jogos olimpicos de paris 2024");
             break;
         case 4:
-            strcpy(obraApresentada, "Tema a definir");
+            strcpy(obraApresentada, "Inteligencia Artificial");
             break;
     }
 }
@@ -222,7 +222,7 @@ void confirmarCompra(){
     selecionarObra();
     printf("Confirma que deseja comprar %i ingressos para %s?\n",quantidadeIngressos,obraApresentada);
     do{
-        printf("1 - Sim\n2 - Não");
+        printf("1 - Sim\n2 - Não\n");
         scanf("%i", &aceitarCompra);
     }while(!(aceitarCompra==1 || aceitarCompra==2));
     
@@ -231,7 +231,6 @@ void confirmarCompra(){
 //add tipo entrada no DB
 //informar valor na compra
 int main() {
-    iniciar:
     //Para variavel ambiente para poder limpar o console
     putenv("TERM=xterm");
     printf("Bilheteria\n");
@@ -274,7 +273,5 @@ int main() {
             printf("Codigo valido em %i acessos.\n",entrada3[2]);
         }
     }
-    system("clear");
-    goto iniciar;
     return 0;
 }
