@@ -195,7 +195,7 @@ void acharTema(){
 }
 
 void lancarRespostas(){
-    FILE *DBObra1 = fopen("/Volumes/Faculdade/faculdade/Pim/codigo/Pim/DBObra1.csv", "a");
+    FILE *DBObra1 = fopen("/Volumes/Faculdade/faculdade/Pim/codigo/Pim/DBSatisfacao.csv", "a");
     if (DBObra1 == NULL) {
         printf("Erro ao abrir o arquivo.\n");
     }
@@ -237,9 +237,7 @@ int main(int argc, const char * argv[]) {
     //da baixa do tokem no sistema
     baixaSistema();
     
-    //para fins de testes o restante nao é apresentado
-    //return 0;
-    sleep(1);
+    //sleep(1);
     if(liberadoAcesso==1){
         apresentarObra();
         selecionarPerguntas();
