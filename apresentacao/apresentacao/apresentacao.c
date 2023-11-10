@@ -37,17 +37,14 @@ void acessarInfoSistema(){
 
     char linha[TAMANHO_MAX_LINHA];
 
-    // Lê cada linha do arquivo
     while (fgets(linha, TAMANHO_MAX_LINHA, DBToken) != NULL) {
         int token;
         int entradaAtual;
         int tipoEntrada;
         int quantidadeComprada;
         
-        // Extrai os valores de token e entrada da linha
         sscanf(linha, "%d;%d;%d;%d;%d", &token, &entradaAtual, &quantidadeAtual, &tipoEntrada, &quantidadeComprada);
 
-                // Verifica se é o token que o user digitou
         if (token == tokenProcurado) {
             entradaObra = entradaAtual;
             quantidade = quantidadeAtual;
@@ -75,10 +72,8 @@ void baixaSistema() {
     int token;
     int tipoEntrada;
     int quantidadeComprada;
-    //preciso armazenar a posição para voltar e gravar nessa posição
     long posicaoEscrita = ftell(DBToken);
     
-    // le cada linha
     while (fgets(linha, TAMANHO_MAX_LINHA, DBToken) != NULL) {
         sscanf(linha, "%d;%d;%d;%d;%d", &token, &entradaAtual, &quantidadeAtual, &tipoEntrada, &quantidadeComprada);
         
@@ -210,14 +205,12 @@ int main(int argc, const char * argv[]) {
         printf("Token: ");
             fgets(codigoToken, sizeof(codigoToken), stdin);
 
-            // Remover o caractere de nova linha (\n) inserido pelo fgets
         codigoToken[strcspn(codigoToken, "\n")] = '\0';
         
         tokenProcurado=atoi(codigoToken);
         acessarInfoSistema();
     }while(valido==-1);
     
-    //da baixa do tokem no sistema
     baixaSistema();
     
     sleep(1);
