@@ -7,18 +7,9 @@
 
 #include <stdio.h>
 #include <string.h>
-//sera feito
 
-//print das informações que forem solicitadas
 
-//faz um switch case perguntando oq precisa
 
-//info a serem espostas:
-    //quantidade que cada obra teve venda
-    //quantidade de cada tipo de ingreço (meia inteira izenta)
-    //fazer media das respostas que seram de 0 a 10 e mostras a media que esta sendo aquela obra
-    //oq mais quier
-//variaveis globais
 int resposta[5];
 int entradaObra;
 float media;
@@ -193,7 +184,6 @@ void mostrarIndicadores(int select){
                         quantidadeRestanteobra4 = quantidadeRestanteobra4 + quantidade;
                     }
                 }
-                
             }
             if(quantidadeRestanteobra1>0){
                 printf("150 anos de Santos Dumont: %1.f\n",quantidadeRestanteobra1);

@@ -14,22 +14,6 @@
 //biblioteca para sistemas Windows
 //#include <windows.h>
 
-//ja foi feito
-
-// autentificação do codigo anteriormente comprado na bilheteria
-
-// apresentação de acordo com o tiket que foi comprado
-
-
-//aqui ainda sera feito
-
-// perguntas a respeito da obra apresentada
-
-// perguntas pessoais
-
-//upload dos dados recolhidos para o csv
-
-
 //variaveia globais
 char codigoToken[5];
 #define TAMANHO_MAX_LINHA 100
@@ -57,9 +41,11 @@ void acessarInfoSistema(){
     while (fgets(linha, TAMANHO_MAX_LINHA, DBToken) != NULL) {
         int token;
         int entradaAtual;
-
+        int tipoEntrada;
+        int quantidadeComprada;
+        
         // Extrai os valores de token e entrada da linha
-        sscanf(linha, "%d;%d;%d", &token, &entradaAtual, &quantidadeAtual);
+        sscanf(linha, "%d;%d;%d;%d;%d", &token, &entradaAtual, &quantidadeAtual, &tipoEntrada, &quantidadeComprada);
 
                 // Verifica se é o token que o user digitou
         if (token == tokenProcurado) {
@@ -76,9 +62,6 @@ void acessarInfoSistema(){
         
     fclose(DBToken);
 }
-
-
-//bug quando a quantidade esta em 10 da baixa no sistema fica 90, acontece com 10,100,1000 etc
 
 
 void baixaSistema() {
@@ -237,7 +220,7 @@ int main(int argc, const char * argv[]) {
     //da baixa do tokem no sistema
     baixaSistema();
     
-    //sleep(1);
+    sleep(1);
     if(liberadoAcesso==1){
         apresentarObra();
         selecionarPerguntas();
@@ -247,7 +230,7 @@ int main(int argc, const char * argv[]) {
     }
     printf("Obrigado por vir\n");
     //Pausa em segundos otimizado para plataformas Mac OS e linux
-    sleep(1);
+    sleep(2);
     
     
     //Pausa em segundos otimizado para plataforma windows

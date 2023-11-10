@@ -18,7 +18,7 @@
 #include <time.h>
 #include <stdbool.h>
 
-#define TAMANHO_MAX_CODIGO 5  // Tamanho máximo para o código (incluindo o caractere nulo)
+#define TAMANHO_MAX_CODIGO 5
 
 
 //variaveis globais
@@ -45,7 +45,6 @@ void selecionarObra(){
     }
 }
 
-//parte de compra de ingressos
 int apresentacao;
 int tipoEntrada=0;
 int quantEntrada;
@@ -72,18 +71,6 @@ void marcarEntrada(){
             default:
                 break;
         }
-    /*
-    int outraEntrada;
-    printf("Deseja comprar outro tipo de ingresso?\n");
-    do{
-        printf("Para compara outro tipo de entrada\n1 para sim \n2 para não: ");
-        scanf("%i",&outraEntrada);
-        if(outraEntrada==1){
-            outraEntrada=0;
-        }else if(outraEntrada==2)
-            printf("corrigir problema de looping\n");
-            //perguntasPessois();
-    }while (!(outraEntrada==1||outraEntrada==2));*/
 }
 void compraDeIngressos(){
     int entradaInteira =30;
@@ -103,10 +90,6 @@ void compraDeIngressos(){
 }
 
 
-
-
-
-//escolhe o tipo de entrada
 void compraTipoEntrada(){
     int entradaInteira =30;
     int entradaMeia =15;
@@ -123,11 +106,7 @@ void compraTipoEntrada(){
     marcarEntrada();
 }
 
-
-
-//joga o codigo tokem para dentro do csv;
 void lancarSistema(){
-    //printf("Seu codigo de entrada é: %i",codigoGerado);
     FILE *DBToken;
     DBToken = fopen("/Volumes/Faculdade/faculdade/Pim/codigo/Pim/DBToken.csv", "a");
     if (DBToken == NULL) {
@@ -142,9 +121,6 @@ void lancarSistema(){
     }
     fclose(DBToken);
 }
-//entrada1[0] = apresentacao;
-//entrada1[1] = tipoEntrada;
-//entrada1[2] = quantEntrada;
 
 bool buscaValidacao() {
     char linha[256];
@@ -162,31 +138,23 @@ bool buscaValidacao() {
         int quatidadeCompradaRecebido;
         sscanf(linha, "%d;%d;%d;%d;%d", &tokenRecebido, &entradaAtualRecebido, &quantidadeAtualRecebido, tipoEntradaRecebido, quatidadeCompradaRecebido);
             if (!(tokenRecebido == codigoToken)) {
-                //é diferente retorna true
                 return true;
             }
     }
-    fclose(DBToken);  // Fecha o arquivo
+    fclose(DBToken);
     
-    //é igual retorna false
     return false;
     
 }
 
-// Função para gerar um código aleatório
 void gerarCodigo() {
     srand(time(NULL));
     int codigo=0;
     
-    // Gera um número aleatório entre 0 a 9999
     codigo = rand() % 10000;
     codigoToken = codigo;
-    // Converte o número inteiro em uma string
-    //sprintf(codigoToken, "%d", codigo);
 }
 
-//se o buscar validação que procurou no csv retorna que o numero ja existe
-//ele pede a geração de outro e a validadação ate que seja um novo numero
 void validarToken() {
     int numLinhasCSV = 3;
     bool codigoValido;
@@ -228,11 +196,7 @@ void confirmarCompra(){
     
 }
 
-//add tipo entrada no DB
-//informar valor na compra
 int main() {
-    //Para variavel ambiente para poder limpar o console
-    putenv("TERM=xterm");
     printf("Bilheteria\n");
 
     for (int repet = 1; repet <= 4; repet++) {
@@ -245,17 +209,12 @@ int main() {
         printf("Escolha 1-4: ");
         scanf("%i", &apresentacao);
     } while (apresentacao < 1 || apresentacao > 4);
-    system("clear");
     
 
-    // Chama a função para escolher o tipo de entrada
     compraTipoEntrada();
     
-        //gera o codigo
-    system("clear");
     gerarCodigo();
         
-        //busca no csv a validação
     buscaValidacao();
     
     validarToken();
@@ -263,7 +222,6 @@ int main() {
     confirmarCompra();
     
     if(aceitarCompra==1){
-        //lança no csv 1-token 2-qual obra 3-quantidade comprada
         lancarSistema();
         if(entrada1[1]==1){
             printf("Codigo valido em %i acessos.\n",entrada1[2]);
